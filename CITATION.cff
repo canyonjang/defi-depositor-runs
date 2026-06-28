@@ -2,9 +2,9 @@ cff-version: 1.2.0
 message: "If you use this software or data, please cite the paper and this repository."
 title: "Replication package: Who Runs First? The Microstructure of Depositor Runs in DeFi Lending"
 authors:
-  - family-names: "[Family name]"
-    given-names: "[Given name]"
-    orcid: "https://orcid.org/[ORCID]"
+  - family-names: "Jang"
+    given-names: "Kyoungyoung"
+    orcid: "https://orcid.org/0009-0003-9743-8657"
 version: 1.0.0
 date-released: "2026-01-01"
 url: "https://github.com/[username]/defi-depositor-runs"

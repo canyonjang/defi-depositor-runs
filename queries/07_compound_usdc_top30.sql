@@ -1,4 +1,0 @@
--- Institutional-contamination diagnostic (Table 6): 30 largest Compound USDC depositors.
--- This is query 06 restricted to the top 30 by pre-shock balance.
--- Output columns: owner, bal0, wd_win, ran, tx_sent_count
--- (Run query 06_compound_usdc_panel.sql and keep the first 30 rows, or add: ORDER BY bal0 DESC LIMIT 30.)

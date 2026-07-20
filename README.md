@@ -1,55 +1,37 @@
-# Replication package — "Who Runs First? The Microstructure of Depositor Runs in DeFi Lending"
+# Replication package
 
-This repository reproduces all empirical results, tables, and figures in the paper
-*Who Runs First? The Microstructure of Depositor Runs in DeFi Lending: Wallet-Level
-Evidence from the USDC Depeg.*
+**Deposit tenure and run participation in decentralized lending: Wallet-level evidence from the 2023 USDC de-peg**
 
-All underlying data are public Ethereum on-chain records. The panels were extracted with
-SQL on [Dune Analytics](https://dune.com), which exposes decoded protocol event logs
-(e.g. `aave_v2_ethereum.LendingPool_evt_Withdraw`). The same series can be rebuilt from
-the raw logs in the `bigquery-public-data.crypto_ethereum` public dataset by decoding the
-corresponding events.
+This package reproduces every number in Tables 1–3 and Figures 1–3 of the paper
+from public Ethereum on-chain data.
 
-## What is here
+## Contents
+- `code/reproduce.py` — single script; prints Tables 1–3 and writes Figures 1–3.
+- `data/` — CSV extracts (see `data/DATA_DICTIONARY.md`).
+- `sql/` — Dune Analytics extraction queries (see `sql/README_extraction.md`).
+- `figures/` — the figure PDFs as they appear in the paper.
+- `requirements.txt` — Python dependencies.
 
-```
-defi-depositor-runs/
-├── queries/   12 Dune SQL queries, one per data extract (see headers for outputs)
-├── data/      the 12 extracts as CSV  (+ data/README.md: column dictionary & provenance)
-├── code/      reproduce_tables.py, reproduce_figures.py
-├── requirements.txt
-├── CITATION.cff
-└── LICENSE
-```
-
-## Reproduce in two commands
-
+## How to reproduce
 ```bash
 pip install -r requirements.txt
 cd code
-python reproduce_tables.py     # prints Table 5 cells, event-study sigma, herding, welfare
-python reproduce_figures.py    # writes Figures 1-6 (vector PDF + 300 dpi PNG) to code/figures/
+python reproduce.py
 ```
+This prints the reconstructed-sample results (Table 2: size OR 2.82, tenure OR 0.47,
+N = 7,848; Table 1: 4.17× vs 1.46× intensity gap; Table 3: tenure-band withdrawal rates)
+and regenerates `figures/Figure_1_intensity.pdf`, `Figure_2_tenure.pdf`, `Figure_3_size.pdf`.
 
-No internet or API key is required: the scripts read the CSVs in `data/`.
-The logit (Newton-Raphson) and Cox proportional-hazards (partial-likelihood) estimators are
-hand-coded in NumPy/SciPy, so `statsmodels`/`lifelines` are **not** needed.
+## Data and method
+All data are public Ethereum records extracted via Dune Analytics from decoded protocol
+event logs (Aave V2/V3, Compound V2/V3 USDC markets) around the March 2023 USDC de-peg.
+Pre-shock balances are reconstructed direct holdings: event-based supply-minus-withdrawal
+balances adjusted for net receipt-token (aToken/cToken) transfers before the shock.
+See `sql/README_extraction.md` and `data/DATA_DICTIONARY.md` for details.
 
-## Re-extracting the data from scratch (optional)
-
-Open each file in `queries/` on Dune, run it, and export the result as CSV into `data/`
-under the filename given in `data/README.md`. The queries are dialect-portable Trino/DuneSQL.
-Key addresses: USDC `0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48`,
-USDT `0xdAC17F958D2ee523a2206206994597C13D831ec7`,
-Compound III (Comet) USDC `0xc3d688B66703497DAA19211EEdff47f25384cdc3`.
-Event onset t0 = 2023-03-09 (USDC/SVB episodes) and 2022-05-09 (USDT/Terra episode).
-
-## Notes
-
-- `aave_usdc_daily_flows.csv` and `compound_usdc_daily_flows.csv` were exported with a
-  1,000-row cap that fully covers the event window used in the paper.
-- Reported figures may differ from the scripts' output in the last decimal due to rounding.
+## License
+Data derive from public blockchain records. Code released under the MIT License.
 
 ## Citation
-
-See `CITATION.cff`. If you use this package, please cite the paper and this repository.
+Jang, K. (2026). Deposit tenure and run participation in decentralized lending:
+Wallet-level evidence from the 2023 USDC de-peg. Working paper.
